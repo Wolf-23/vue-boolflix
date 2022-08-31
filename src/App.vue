@@ -25,10 +25,12 @@ export default {
   },
   methods: {
     getSearchText(text) {
-      this.MySearchText = text;
-      this.apiRequestFilm();
-      this.apiRequestSerie();
-      this.visibility = true
+      this.MySearchText = text.trim();
+      if (!this.MySearchText == '') {
+        this.apiRequestFilm();
+        this.apiRequestSerie();
+        this.visibility = true
+      }
     },
     apiRequestFilm() {
       axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c4a0217aed11ceee398209d64761d218&language=it-IT&query=${this.MySearchText}`)
