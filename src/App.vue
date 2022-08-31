@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MyHeader @searchText="getSearchText"/>
-    <MyMain :listFilm="listFilm"/>
+    <MyMain :listFilm="listFilm" :listSerie="listSerie" :visibility="visibility"/>
   </div>
 </template>
 
@@ -14,7 +14,9 @@ export default {
   data() {
     return {
       MySearchText: '',
-      listFilm: []
+      listFilm: [],
+      listSerie: [],
+      visibility: false
     }
   },
   components: {
@@ -24,17 +26,28 @@ export default {
   methods: {
     getSearchText(text) {
       this.MySearchText = text;
-      this.apiRequest();
+      this.apiRequestFilm();
+      this.apiRequestSerie();
+      this.visibility = true
     },
-    apiRequest() {
-                axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c4a0217aed11ceee398209d64761d218&query=${this.MySearchText}&language=it-IT`)
-                .then(response => {
-                    this.listFilm = response.data.results;
-                })
-                .catch(err => {
-                  console.log(err);
-                })
-            }
+    apiRequestFilm() {
+      axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c4a0217aed11ceee398209d64761d218&language=it-IT&query=${this.MySearchText}`)
+      .then(response => {
+          this.listFilm = response.data.results;
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },
+    apiRequestSerie() {
+        axios.get(`https://api.themoviedb.org/3/search/tv?api_key=c4a0217aed11ceee398209d64761d218&language=it-IT&query=${this.MySearchText}`)
+        .then(response => {
+            this.listSerie = response.data.results;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
   }
 }
 </script>
