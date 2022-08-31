@@ -22,15 +22,17 @@ export default {
     MyMain
   },
   methods: {
-    getSearchText(data) {
-      this.MySearchText = data;
+    getSearchText(text) {
+      this.MySearchText = text;
       this.apiRequest();
     },
     apiRequest() {
                 axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c4a0217aed11ceee398209d64761d218&query=${this.MySearchText}&language=it-IT`)
                 .then(response => {
                     this.listFilm = response.data.results;
-                    console.log(this.listFilm)
+                })
+                .catch(err => {
+                  console.log(err);
                 })
             }
   }
