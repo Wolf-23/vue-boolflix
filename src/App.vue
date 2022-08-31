@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MyHeader @searchText="getSearchText"/>
-    <MyMain :listFilm="listFilm" :listSerie="listSerie" :visibility="visibility"/>
+    <MyMain :listFilm="listFilm" :listSerie="listSerie"/>
   </div>
 </template>
 
@@ -16,7 +16,6 @@ export default {
       MySearchText: '',
       listFilm: [],
       listSerie: [],
-      visibility: false
     }
   },
   components: {
@@ -29,8 +28,10 @@ export default {
       if (!this.MySearchText == '') {
         this.apiRequestFilm();
         this.apiRequestSerie();
-        this.visibility = true;
-      }
+      } else {
+          this.listFilm = [];
+          this.listSerie = [];
+        }
     },
     apiRequestFilm() {
       axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c4a0217aed11ceee398209d64761d218&language=it-IT&query=${this.MySearchText}`)
@@ -55,5 +56,5 @@ export default {
 </script>
 
 <style lang="scss">
-
+  @import './assets/styles/general.scss';
 </style>

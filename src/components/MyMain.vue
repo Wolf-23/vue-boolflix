@@ -1,30 +1,126 @@
 <template>
   <main>
-    <div>
-      <h3 v-if="visibility == true && this.listFilm.lenght > 0">Lista Film Cercati:</h3>
-      <ul v-for="(film, index) in listFilm" :key="index">
-            <li class="title">{{film.title}}</li>
-            <li>{{film.original_title}}</li>
-            <li>
-                <img :src="getImage(film.original_language)" :alt="film.original_language">
-            </li>
-            <li>{{film.vote_average}}</li>
-        </ul>
-    </div>
-    <div>
-        <h3 v-if="visibility == true && this.listFilm.lenght > 0">Lista Serie Cercate:</h3>
-        <ul v-for="(serie, index) in listSerie" :key="index">
-            <li class="title">{{serie.name}}</li>
-            <li>{{serie.original_name}}</li>
-            <li><img :src="getImage(serie.original_language)" :alt="serie.original_language"></li>
-            <li>{{serie.vote_average}}</li>
-        </ul>
-    </div>
+        <div class="MyFilm">
+            <div class="flip-card" v-for="(film, index) in listFilm" :key="index">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" :alt="film.title">
+                    </div>
+                    <div class="flip-card-back">
+                        <div><span>Titolo: </span>{{film.title}}</div>
+                        <div><span>Titolo Originale: </span>{{film.original_title}}</div>
+                        <div>
+                            <span>Lingua: </span>
+                            <img class="language" :src="getImage(film.original_language)" :alt="film.original_language">
+                        </div>
+                        <div v-if="getVote(film.vote_average) == 1">
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else-if="getVote(film.vote_average) == 2">
+                            <span>Voto: </span>  
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else-if="getVote(film.vote_average) == 3">
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else-if="getVote(film.vote_average) == 4">
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else>
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="MySerie">
+            <div class="flip-card" v-for="(serie, index) in listSerie" :key="index">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img :src="'https://image.tmdb.org/t/p/w342' + serie.poster_path" :alt="serie.name">
+                    </div>
+                    <div class="flip-card-back">
+                        <div><span>Titolo: </span>{{serie.name}}</div>
+                        <div><span>Titolo Originale: </span>{{serie.original_title}}</div>
+                        <div>
+                            <span>Lingua: </span>
+                            <img class="language" :src="getImage(serie.original_language)" :alt="serie.original_language">
+                        </div>
+                        <div v-if="getVote(serie.vote_average) == 1">
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else-if="getVote(serie.vote_average) == 2">
+                            <span>Voto: </span>  
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else-if="getVote(serie.vote_average) == 3">
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else-if="getVote(serie.vote_average) == 4">
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div v-else>
+                            <span>Voto: </span> 
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
   </main>
 </template>
-
+<!-- 
+    Piena: <i class="fa-solid fa-star"></i>
+    Vuota: <i class="fa-regular fa-star"></i>
+ -->
 <script>
-  
     export default {
         name: 'MyMain',
         props: {
@@ -32,10 +128,6 @@
             listSerie: Array,
             visibility: Boolean
 
-        },
-        data() {
-            return {
-            }
         },
         methods: {
             getImage(language) {
@@ -46,20 +138,64 @@
                     imageSrc = language;
                 }
                 return imageSrc;
+            },
+            getVote(vote_average) {
+                return Math.ceil(vote_average / 2);
             }
         },
     }
 </script>
 
 <style scoped lang="scss">
-    ul {
-        border: 1px solid black;
-        .title {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        img {
-            height: 20px;
-        }
+    @import '~@fortawesome/fontawesome-free/css/all.css';
+    main {
+        background-color: rgb(49, 49, 49);
+    }
+    .MyFilm, .MySerie {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-top: 25px;
+            .flip-card {
+                background-color: transparent;
+                width: calc(100% / 3 - 40px);
+                height: 500px;
+                margin: 20px;
+                .flip-card-inner {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    transition: transform 0.8s;
+                    transform-style: preserve-3d;
+                    .flip-card-front, .flip-card-back {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        -webkit-backface-visibility: hidden;
+                        backface-visibility: hidden;
+                    }
+                    .flip-card-front {
+                        color: black;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            object-position: top;
+                        }
+                    }
+                    .flip-card-back {
+                        background-color: black;
+                        color: white;
+                        transform: rotateY(180deg);
+                        padding: 25px;
+                        .language {
+                            width: 15px;
+                        }
+                    }
+                }
+                &:hover {
+                .flip-card-inner { transform: rotateY(180deg);}
+                }
+            }
     }
 </style>
