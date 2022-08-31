@@ -29,7 +29,7 @@ export default {
       if (!this.MySearchText == '') {
         this.apiRequestFilm();
         this.apiRequestSerie();
-        this.visibility = true
+        this.visibility = true;
       }
     },
     apiRequestFilm() {
