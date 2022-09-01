@@ -1,5 +1,8 @@
 <template>
   <main>
+    <!-- Film -->
+        <h3 class="searchTitle" v-if="visibilityFilm == true" >Film Ricercati:</h3>
+        <div class="emptyArray" v-if="listFilm.length == [] && visibilityFilm == true">Nessun Risultato trovato!</div>
         <div class="MyFilm">
             <div class="flip-card" v-for="(film, index) in listFilm" :key="index">
                 <div class="flip-card-inner">
@@ -8,55 +11,22 @@
                     </div>
                     <div class="flip-card-back">
                         <div><span>Titolo: </span>{{film.title}}</div>
-                        <div><span>Titolo Originale: </span>{{film.original_title}}</div>
+                        <div :class="(film.title == film.original_title || film.original_title == ''?'noShow': '')"><span>Titolo Originale: </span>{{film.original_title}}</div>
                         <div>
                             <span>Lingua: </span>
                             <img class="language" :src="getImage(film.original_language)" :alt="film.original_language">
                         </div>
-                        <div v-if="getVote(film.vote_average) == 1">
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else-if="getVote(film.vote_average) == 2">
-                            <span>Voto: </span>  
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else-if="getVote(film.vote_average) == 3">
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else-if="getVote(film.vote_average) == 4">
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else>
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                        <div :class="(film.overview == ''?'noShow':'')"><span>Trama: </span>{{film.overview}}</div> 
+                        <div>
+                            <i v-for="n in 5" class="fa-star" :class="(n>=getVote(film.vote_average)?'fa-regular': 'fa-solid')" :key="n"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    <!-- Serie Tv -->
+        <h3 class="searchTitle" v-if="visibilitySerie == true">Serie TV Ricercate:</h3>
+        <div class="emptyArray" v-if="listFilm.length == [] &&  visibilitySerie == true">Nessun Risultato trovato!</div>
         <div class="MySerie">
             <div class="flip-card" v-for="(serie, index) in listSerie" :key="index">
                 <div class="flip-card-inner">
@@ -65,50 +35,13 @@
                     </div>
                     <div class="flip-card-back">
                         <div><span>Titolo: </span>{{serie.name}}</div>
-                        <div><span>Titolo Originale: </span>{{serie.original_title}}</div>
+                        <div :class="(serie.name == serie.original_name || serie.original_name == ''?'noShow': '')"><span>Titolo Originale: </span>{{serie.original_name}}</div>
                         <div>
                             <span>Lingua: </span>
                             <img class="language" :src="getImage(serie.original_language)" :alt="serie.original_language">
                         </div>
-                        <div v-if="getVote(serie.vote_average) == 1">
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else-if="getVote(serie.vote_average) == 2">
-                            <span>Voto: </span>  
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else-if="getVote(serie.vote_average) == 3">
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else-if="getVote(serie.vote_average) == 4">
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div v-else>
-                            <span>Voto: </span> 
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                        <div>
+                            <i v-for="n in 5" class="fa-star" :class="(n>=getVote(serie.vote_average)?'fa-regular': 'fa-solid')" :key="n"></i>
                         </div>
                     </div>
                 </div>
@@ -116,17 +49,14 @@
         </div>
   </main>
 </template>
-<!-- 
-    Piena: <i class="fa-solid fa-star"></i>
-    Vuota: <i class="fa-regular fa-star"></i>
- -->
 <script>
     export default {
         name: 'MyMain',
         props: {
             listFilm: Array,
             listSerie: Array,
-            visibility: Boolean
+            visibilityFilm: Boolean,
+            visibilitySerie: Boolean
 
         },
         methods: {
@@ -150,52 +80,65 @@
     @import '~@fortawesome/fontawesome-free/css/all.css';
     main {
         background-color: rgb(49, 49, 49);
-    }
-    .MyFilm, .MySerie {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding-top: 25px;
-            .flip-card {
-                background-color: transparent;
-                width: calc(100% / 3 - 40px);
-                height: 500px;
-                margin: 20px;
-                .flip-card-inner {
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    transition: transform 0.8s;
-                    transform-style: preserve-3d;
-                    .flip-card-front, .flip-card-back {
-                        position: absolute;
+        .searchTitle {
+            padding: 30px 0 10px;
+            font-size: 30px;
+        }
+        .emptyArray, .searchTitle {
+            color: white;
+            text-align: center;
+        }
+        .emptyArray {
+            padding-top: 20px;
+        }
+        .MyFilm, .MySerie {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+                .flip-card {
+                    background-color: transparent;
+                    width: calc(100% / 3 - 40px);
+                    height: 500px;
+                    margin: 20px;
+                    .flip-card-inner {
+                        position: relative;
                         width: 100%;
                         height: 100%;
-                        -webkit-backface-visibility: hidden;
-                        backface-visibility: hidden;
-                    }
-                    .flip-card-front {
-                        color: black;
-                        img {
+                        transition: transform 0.8s;
+                        transform-style: preserve-3d;
+                        .flip-card-front, .flip-card-back {
+                            position: absolute;
                             width: 100%;
                             height: 100%;
-                            object-fit: cover;
-                            object-position: top;
+                            -webkit-backface-visibility: hidden;
+                            backface-visibility: hidden;
+                        }
+                        .flip-card-front {
+                            color: black;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                object-position: top;
+                            }
+                        }
+                        .flip-card-back {
+                            background-color: black;
+                            color: white;
+                            transform: rotateY(180deg);
+                            padding: 25px;
+                            .language {
+                                width: 15px;
+                            }
+                            .noShow {
+                                display: none;
+                            }
                         }
                     }
-                    .flip-card-back {
-                        background-color: black;
-                        color: white;
-                        transform: rotateY(180deg);
-                        padding: 25px;
-                        .language {
-                            width: 15px;
-                        }
+                    &:hover {
+                    .flip-card-inner { transform: rotateY(180deg);}
                     }
                 }
-                &:hover {
-                .flip-card-inner { transform: rotateY(180deg);}
-                }
-            }
+        }
     }
 </style>

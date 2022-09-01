@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MyHeader @searchText="getSearchText"/>
-    <MyMain :listFilm="listFilm" :listSerie="listSerie"/>
+    <MyMain :listFilm="listFilm" :listSerie="listSerie" :visibilityFilm="visibilityFilm" :visibilitySerie="visibilitySerie"/>
   </div>
 </template>
 
@@ -16,6 +16,11 @@ export default {
       MySearchText: '',
       listFilm: [],
       listSerie: [],
+      visibilityFilm: false,
+      visibilitySerie: false,
+      apiUrl: 'https://api.themoviedb.org/3',
+      apiKey: 'c4a0217aed11ceee398209d64761d218',
+      apiLanguage: 'it-IT',
     }
   },
   components: {
@@ -25,16 +30,28 @@ export default {
   methods: {
     getSearchText(text) {
       this.MySearchText = text.trim();
+      const paramsObj = {
+        params: {
+          api_key: this.apiKey,
+          language: this.language,
+          query: text
+        }
+      }
       if (!this.MySearchText == '') {
-        this.apiRequestFilm();
-        this.apiRequestSerie();
+        this.apiRequestFilm(paramsObj);
+        this.apiRequestSerie(paramsObj);
+        this.visibilityFilm = true;
+        this.visibilitySerie = true;
+
       } else {
           this.listFilm = [];
           this.listSerie = [];
+          this.visibilityFilm = false;
+          this.visibilitySerie = false;
         }
     },
-    apiRequestFilm() {
-      axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c4a0217aed11ceee398209d64761d218&language=it-IT&query=${this.MySearchText}`)
+    apiRequestFilm(paramsObj) {
+      axios.get(this.apiUrl + '/search/movie', paramsObj)
       .then(response => {
           this.listFilm = response.data.results;
       })
@@ -42,8 +59,8 @@ export default {
         console.log(err);
       })
     },
-    apiRequestSerie() {
-        axios.get(`https://api.themoviedb.org/3/search/tv?api_key=c4a0217aed11ceee398209d64761d218&language=it-IT&query=${this.MySearchText}`)
+    apiRequestSerie(paramsObj) {
+        axios.get(this.apiUrl + '/search/tv', paramsObj)
         .then(response => {
             this.listSerie = response.data.results;
         })
