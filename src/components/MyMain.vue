@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-    <!-- Serie Tv -->
+    <!-- Serie Tv --> 
         <h3 class="searchTitle" v-if="visibilitySerie == true">Serie TV Ricercate:</h3>
         <div class="emptyArray" v-if="listFilm.length == [] &&  visibilitySerie == true">Nessun Risultato trovato!</div>
         <div class="MySerie">

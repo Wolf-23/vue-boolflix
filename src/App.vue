@@ -42,7 +42,6 @@ export default {
         this.apiRequestSerie(paramsObj);
         this.visibilityFilm = true;
         this.visibilitySerie = true;
-
       } else {
           this.listFilm = [];
           this.listSerie = [];
