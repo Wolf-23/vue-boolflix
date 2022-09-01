@@ -127,6 +127,9 @@
                             color: white;
                             transform: rotateY(180deg);
                             padding: 25px;
+                            div {
+                                padding: 5px 0;
+                            }
                             .language {
                                 width: 15px;
                             }
